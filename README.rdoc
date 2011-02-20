@@ -1,7 +1,7 @@
 = GitHuby: a ruby bindings for the GitHub API
 
-*Homepage:*::  http://rubydoc.info/github/hugomaiavieira/githuby/master/frames
-*Git:*::       http://github.com/hugomaiavieira/githuby
+Homepage::  http://rubydoc.info/github/hugomaiavieira/githuby/master/frames
+Git::       http://github.com/hugomaiavieira/githuby
 
 
 == Synopsis
