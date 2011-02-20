@@ -1,13 +1,7 @@
 = GitHuby: a ruby bindings for the GitHub API
 
-<b>Homepage</b>:        http://rubydoc.info/github/hugomaiavieira/githuby/master/frames <br/>
-<b>Git</b>:             http://github.com/hugomaiavieira/githuby <br/>
-<b>Author</b>:          Hugo Maia Vieira <br/>
-<b>Contributors</b>:    See Contributors section below <br/>
-<b>Copyright</b>:       2011 <br/>
-<b>License</b>:         MIT License <br/>
-<b>Latest Version</b>:  0.0.1 <br/>
-<b>Release Date</b>:    December 21st 2010 <br/>
+*Homepage:*::  http://rubydoc.info/github/hugomaiavieira/githuby/master/frames
+*Git:*::       http://github.com/hugomaiavieira/githuby
 
 
 == Synopsis
@@ -30,6 +24,7 @@ authenticated user account information.
     end
 
 See {GitHub::User} for more.
+
 
 == Installing
 
