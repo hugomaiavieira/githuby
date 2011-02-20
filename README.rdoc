@@ -1,0 +1,47 @@
+= GitHuby: a ruby bindings for the GitHub API
+
+<b>Homepage</b>:        http://rubydoc.info/github/hugomaiavieira/githuby/master/frames <br/>
+<b>Git</b>:             http://github.com/hugomaiavieira/githuby <br/>
+<b>Author</b>:          Hugo Maia Vieira <br/>
+<b>Contributors</b>:    See Contributors section below <br/>
+<b>Copyright</b>:       2011 <br/>
+<b>License</b>:         MIT License <br/>
+<b>Latest Version</b>:  0.0.1 <br/>
+<b>Release Date</b>:    December 21st 2010 <br/>
+
+
+== Synopsis
+
+GitHuby is just a ruby bindings for the GitHub API.
+
+
+== Feature List
+
+=== User API
+
+Searching users, getting user information and, as soon as possible, managing
+authenticated user account information.
+
+    user = GitHub::User.get 'hugomaiavieira'
+    puts user.email   # => hugomaiavieira@gmail.com
+
+    user.followers.each do |follower|
+      puts "#{follower.name} - #{follower.email}"
+    end
+
+See {GitHub::User} for more.
+
+== Installing
+
+To install GitHuby, use the following command:
+
+    $ gem install githuby
+
+(Add +sudo+ if you're installing under a POSIX system as root)
+
+
+== Copyright
+
+GitHuby (c) 2011 by {Hugo Maia Vieira}[mailto:hugomaiavieira@gmail.com].
+GitHuby is licensed under the MIT license. Please see the {file:LICENSE}
+document for more information.
