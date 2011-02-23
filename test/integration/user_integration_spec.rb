@@ -40,6 +40,11 @@ describe GitHub::User do
         users_names.should include('Hugo Maia Vieira', 'Hugo Lopes Tavares')
       end
 
+      it 'and returns an empty list for no existen username' do
+        users = GitHub::User.search_by_username 'someonethatnoexists'
+        users.should be_empty
+      end
+
     end
 
   end
