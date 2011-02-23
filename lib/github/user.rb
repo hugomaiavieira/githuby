@@ -46,7 +46,7 @@ module GitHub
     # Search users by email address. This only matches against the email address
     # the user has listed on their public profile, and is opt-in for everyone.
     #
-    def self.seach_by_email(email)
+    def self.search_by_email(email)
       url = [PUBLIC_BASE_URL, 'user/email', email].join('/')
       self.new JSON.parse(open(url).read)['user']
       rescue OpenURI::HTTPError
@@ -55,9 +55,10 @@ module GitHub
 
     ##
     #
-    # Search users by the github username returning a {GitHub::User} objects list.
+    # Search users by the github username returning a {GitHub::User} objects
+    # list.
     #
-    def self.seach_by_username(username)
+    def self.search_by_username(username)
       url = [PUBLIC_BASE_URL, 'user/search', username].join('/')
       users = JSON.parse(open(url).read)['users']
       users.collect { |user| self.new user }
