@@ -66,13 +66,12 @@ module GitHub
 
     ##
     #
-    # Returns a {GitHub::User} objects list with the users that the user is
-    # following.
+    # Returns a {GitHub::User} objects list with the users followed by the given
+    # user.
     #
-    def self.following(username)
+    def self.followed_by(username)
       attributes = '?full=1'
       url = [PUBLIC_BASE_URL, 'user/show', username, 'following'].join('/')
-      p url
       users = JSON.parse(open(url+attributes).read)['users']
       users.collect { |user| self.new user }
     end
@@ -88,9 +87,10 @@ module GitHub
 
     ##
     #
-    # Returns a {GitHub::User} objects list with the users that follows the user.
+    # Returns a {GitHub::User} objects list with the users that follows the
+    # given user.
     #
-    def self.followers(username)
+    def self.followers_for(username)
       attributes = '?full=1'
       url = [PUBLIC_BASE_URL, 'user/show', username, 'followers'].join('/')
       users = JSON.parse(open(url+attributes).read)['users']

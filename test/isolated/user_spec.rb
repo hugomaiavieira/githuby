@@ -74,6 +74,28 @@ describe GitHub::User do
       users = GitHub::User.search_by_username 'someonethatnoexists'
       users.should be_empty
     end
+
+  end
+
+  context 'followed by' do
+
+    it 'returns the users followed by the given user' do
+      username = "hugomaiavieira"
+      GitHub::User.should_receive(:open).
+        with("http://github.com/api/v2/json/user/show/#{username}/following?full=1").
+        and_return json_users
+      users = GitHub::User.followed_by username
+      users_names = users.collect(&:name)
+      users_names.should include('Hugo Lopes Tavares', 'Hugo Bonacci', 'Hugo Josefson')
+
+      username = "algorich"
+      GitHub::User.should_receive(:open).
+        with("http://github.com/api/v2/json/user/show/#{username}/following?full=1").
+        and_return StringIO.new('{"users":[]}')
+      users = GitHub::User.followed_by username
+      users.should be_empty
+    end
+
   end
 
 end

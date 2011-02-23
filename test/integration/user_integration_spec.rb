@@ -47,7 +47,19 @@ describe GitHub::User do
 
     end
 
-  end
+    context 'followed by' do
 
+      it 'returns the users followed by the given user' do
+        users = GitHub::User.followed_by 'hugomaiavieira'
+        users_names = users.collect(&:name)
+        users_names.should include('Hugo Lopes Tavares', 'Eduardo Hertz', 'Tarsis Azevedo')
+
+        users = GitHub::User.followed_by 'algorich'
+        users.should be_empty
+      end
+
+    end
+
+  end
 end
 
