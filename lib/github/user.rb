@@ -90,7 +90,7 @@ module GitHub
     # Returns a {GitHub::User} objects list with the users that follows the
     # given user.
     #
-    def self.followers_for(username)
+    def self.followers_of(username)
       attributes = '?full=1'
       url = [PUBLIC_BASE_URL, 'user/show', username, 'followers'].join('/')
       users = JSON.parse(open(url+attributes).read)['users']

@@ -60,6 +60,19 @@ describe GitHub::User do
 
     end
 
+    context 'followers of' do
+
+      it 'returns followers of the given user' do
+        users = GitHub::User.followers_of 'hugomaiavieira'
+        users_names = users.collect(&:name)
+        users_names.should include('Hugo Lopes Tavares', 'Eduardo Hertz', 'Tarsis Azevedo')
+
+        users = GitHub::User.followers_of 'algorich'
+        users.should be_empty
+      end
+
+    end
+
   end
 end
 
