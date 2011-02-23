@@ -13,21 +13,21 @@ describe GitHub::User do
   context 'get' do
 
     it 'the user given his username' do
+      username = 'hugomaiavieira'
       GitHub::User.should_receive(:open).
-        with('http://github.com/api/v2/json/user/show/hugomaiavieira').
+        with("http://github.com/api/v2/json/user/show/#{username}").
         and_return json_user
-      user = GitHub::User.get 'hugomaiavieira'
+      user = GitHub::User.get username
       user.name.should == 'Hugo Maia Vieira'
     end
 
     it 'nil given an nonexistent username' do
+      username = 'someonethatnoexists'
       error_404 = OpenURI::HTTPError.new('404 Not Found', '')
-
       GitHub::User.should_receive(:open).
-        with('http://github.com/api/v2/json/user/show/someonethatnoexists').
+        with("http://github.com/api/v2/json/user/show/#{username}").
         and_raise error_404
-
-      user = GitHub::User.get 'someonethatnoexists'
+      user = GitHub::User.get username
       user.should be_nil
     end
 
@@ -36,21 +36,21 @@ describe GitHub::User do
   context 'search_by_email' do
 
     it 'and returns the user' do
+      email = 'hugomaiavieira@gmail.com'
       GitHub::User.should_receive(:open).
-        with('http://github.com/api/v2/json/user/email/hugomaiavieira@gmail.com').
+        with("http://github.com/api/v2/json/user/email/#{email}").
         and_return json_user
-      user = GitHub::User.search_by_email 'hugomaiavieira@gmail.com'
+      user = GitHub::User.search_by_email email
       user.name.should == 'Hugo Maia Vieira'
     end
 
     it 'and returns nil for an nonexistent email' do
+      email = 'nothing@email.com'
       error_404 = OpenURI::HTTPError.new('404 Not Found', '')
-
       GitHub::User.should_receive(:open).
-        with('http://github.com/api/v2/json/user/email/nothing@email.com').
+        with("http://github.com/api/v2/json/user/email/#{email}").
         and_raise error_404
-
-      user = GitHub::User.search_by_email 'nothing@email.com'
+      user = GitHub::User.search_by_email email
       user.should be_nil
     end
 
@@ -59,19 +59,21 @@ describe GitHub::User do
   context 'search_by_username' do
 
     it 'and returns a list of users' do
+      username = 'hugo'
       GitHub::User.should_receive(:open).
-        with('http://github.com/api/v2/json/user/search/hugo').
+        with("http://github.com/api/v2/json/user/search/#{username}").
         and_return json_users
-      users = GitHub::User.search_by_username 'hugo'
+      users = GitHub::User.search_by_username username
       users_names = users.collect(&:name)
       users_names.should include('Hugo Maia Vieira', 'Hugo Lopes Tavares')
     end
 
     it 'and returns an empty list for no existen username' do
+      username = 'someonethatnoexists'
       GitHub::User.should_receive(:open).
-        with('http://github.com/api/v2/json/user/search/someonethatnoexists').
+        with("http://github.com/api/v2/json/user/search/#{username}").
         and_return StringIO.new('{"users":[]}')
-      users = GitHub::User.search_by_username 'someonethatnoexists'
+      users = GitHub::User.search_by_username username
       users.should be_empty
     end
 
