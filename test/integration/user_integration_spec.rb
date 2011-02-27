@@ -2,7 +2,7 @@ require File.expand_path 'test/support/spec_helper.rb'
 
 describe GitHub::User do
 
-  context 'integration' do
+  context 'class' do
 
     context 'get' do
 
@@ -136,5 +136,27 @@ describe GitHub::User do
     end
 
   end
+
+  context 'instance' do
+
+    context 'following' do
+
+      it 'returns the users followed by the given user' do
+        username = 'hugomaiavieira'
+        user = GitHub::User.get(username)
+        users = user.following
+        users_names = users.collect(&:name)
+        users_names.should include('Hugo Lopes Tavares', 'Eduardo Hertz', 'Tarsis Azevedo')
+
+        username = 'githubytest'
+        user = GitHub::User.get(username)
+        users = GitHub::User.followed_by username
+        users.should be_empty
+      end
+
+    end
+
+  end
+
 end
 

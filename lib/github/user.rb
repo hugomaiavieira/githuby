@@ -134,7 +134,7 @@ module GitHub
       attributes = '?full=1'
       url = [PUBLIC_BASE_URL, 'user/show', self.login, 'following'].join('/')
       users = JSON.parse(open(url+attributes).read)['users']
-      users.collect { |user| self.new user }
+      users.collect { |user| self.class.new user }
     end
 
     ##
