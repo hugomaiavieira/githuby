@@ -2,6 +2,8 @@ require 'open-uri'
 require 'json'
 require 'hashie'
 
+%w(repository user).each {|req| require File.dirname(__FILE__) + "/github/#{req}"}
+
 ##
 #
 # API for accessing and modifying GitHub information.

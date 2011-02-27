@@ -1,5 +1,3 @@
-require File.expand_path 'lib/github.rb'
-
 module GitHub
   ##
   #
@@ -108,8 +106,8 @@ module GitHub
 
     ##
     #
-    # Returns a {GitHub::Repository} objects list with the repositories that the
-    # user watch.
+    # Returns a {GitHub::Repository} objects list with the repositories watched
+    # by the given user.
     #
     def self.watched_by(username)
       url = [PUBLIC_BASE_URL, 'repos/watched', username].join('/')
