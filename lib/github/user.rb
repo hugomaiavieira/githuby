@@ -78,9 +78,9 @@ module GitHub
 
     ##
     #
-    # Returns a list with the usernames of users that the user is following.
+    # Returns a list with the usernames of users followed by the given user.
     #
-    def self.following_usernames(username)
+    def self.usernames_of_followed_by(username)
       url = [PUBLIC_BASE_URL, 'user/show', username, 'following'].join('/')
       JSON.parse(open(url).read)['users']
     end
@@ -99,9 +99,9 @@ module GitHub
 
     ##
     #
-    # Returns a list with the usernames of users that follows the user.
+    # Returns a list with the usernames of users that follows the given user.
     #
-    def self.followers_usernames(username)
+    def self.usernames_of_followers_of(username)
       url = [PUBLIC_BASE_URL, 'user/show', username, 'followers'].join('/')
       JSON.parse(open(url).read)['users']
     end

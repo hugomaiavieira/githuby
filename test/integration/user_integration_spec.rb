@@ -60,6 +60,18 @@ describe GitHub::User do
 
     end
 
+    context 'usernames of followed by' do
+
+      it 'returns the usernames of users followed by the given user' do
+        usernames = GitHub::User.usernames_of_followed_by 'hugomaiavieira'
+        usernames.should include('hugobr', 'eduardohertz', 'rodrigomanhaes')
+
+        usernames = GitHub::User.usernames_of_followed_by 'algorich'
+        usernames.should be_empty
+      end
+
+    end
+
     context 'followers of' do
 
       it 'returns followers of the given user' do
@@ -69,6 +81,18 @@ describe GitHub::User do
 
         users = GitHub::User.followers_of 'algorich'
         users.should be_empty
+      end
+
+    end
+
+    context 'usernames of followers of' do
+
+      it 'returns the usernames of users that follows the given user' do
+        usernames = GitHub::User.usernames_of_followers_of 'hugomaiavieira'
+        usernames.should include('hugobr', 'eduardohertz', 'rodrigomanhaes')
+
+        usernames = GitHub::User.usernames_of_followers_of 'algorich'
+        usernames.should be_empty
       end
 
     end

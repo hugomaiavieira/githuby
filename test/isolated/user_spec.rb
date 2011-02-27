@@ -10,6 +10,10 @@ describe GitHub::User do
     open('test/data/users.json')
   end
 
+  def json_usernames
+    open('test/data/usernames.json')
+  end
+
   context 'get' do
 
     it 'the user given his username' do
@@ -100,6 +104,26 @@ describe GitHub::User do
 
   end
 
+  context 'usernames of followed by' do
+
+    it 'returns the usernames of users followed by the given user' do
+      username = "hugomaiavieira"
+      GitHub::User.should_receive(:open).
+        with("http://github.com/api/v2/json/user/show/#{username}/following").
+        and_return json_usernames
+      usernames = GitHub::User.usernames_of_followed_by username
+      usernames.should include('hugobr', 'eduardohertz', 'rodrigomanhaes')
+
+      username = "algorich"
+      GitHub::User.should_receive(:open).
+        with("http://github.com/api/v2/json/user/show/#{username}/following").
+        and_return StringIO.new('{"users":[]}')
+      usernames = GitHub::User.usernames_of_followed_by username
+      usernames.should be_empty
+    end
+
+  end
+
   context 'followers of' do
 
     it 'returns followers of the given user' do
@@ -117,6 +141,26 @@ describe GitHub::User do
         and_return StringIO.new('{"users":[]}')
       users = GitHub::User.followers_of username
       users.should be_empty
+    end
+
+  end
+
+  context 'usernames of followers of' do
+
+    it 'returns the usernames of users that follows the given user' do
+      username = "hugomaiavieira"
+      GitHub::User.should_receive(:open).
+        with("http://github.com/api/v2/json/user/show/#{username}/followers").
+        and_return json_usernames
+      usernames = GitHub::User.usernames_of_followers_of username
+      usernames.should include('hugobr', 'eduardohertz', 'rodrigomanhaes')
+
+      username = "algorich"
+      GitHub::User.should_receive(:open).
+        with("http://github.com/api/v2/json/user/show/#{username}/followers").
+        and_return StringIO.new('{"users":[]}')
+      usernames = GitHub::User.usernames_of_followers_of username
+      usernames.should be_empty
     end
 
   end
