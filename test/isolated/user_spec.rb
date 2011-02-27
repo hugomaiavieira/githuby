@@ -60,7 +60,7 @@ describe GitHub::User do
       users_names.should include('Hugo Maia Vieira', 'Hugo Lopes Tavares')
     end
 
-    it 'and returns an empty list for no existen username' do
+    it 'and returns an empty list for nonexistent username' do
       username = 'someonethatnoexists'
       GitHub::User.should_receive(:open).
         with("http://github.com/api/v2/json/user/search/#{username}").
@@ -90,6 +90,16 @@ describe GitHub::User do
       users.should be_empty
     end
 
+    it 'nil given an nonexistent username' do
+      username = 'someonethatnoexists'
+      error_404 = OpenURI::HTTPError.new('404 Not Found', '')
+      GitHub::User.should_receive(:open).
+        with("http://github.com/api/v2/json/user/show/#{username}/following?full=1").
+        and_raise error_404
+      user = GitHub::User.followed_by username
+      user.should be_nil
+    end
+
   end
 
   context 'usernames of followed by' do
@@ -108,6 +118,16 @@ describe GitHub::User do
         and_return StringIO.new('{"users":[]}')
       usernames = GitHub::User.usernames_of_followed_by username
       usernames.should be_empty
+    end
+
+    it 'nil given an nonexistent username' do
+      username = 'someonethatnoexists'
+      error_404 = OpenURI::HTTPError.new('404 Not Found', '')
+      GitHub::User.should_receive(:open).
+        with("http://github.com/api/v2/json/user/show/#{username}/following").
+        and_raise error_404
+      user = GitHub::User.usernames_of_followed_by username
+      user.should be_nil
     end
 
   end
@@ -131,6 +151,16 @@ describe GitHub::User do
       users.should be_empty
     end
 
+    it 'nil given an nonexistent username' do
+      username = 'someonethatnoexists'
+      error_404 = OpenURI::HTTPError.new('404 Not Found', '')
+      GitHub::User.should_receive(:open).
+        with("http://github.com/api/v2/json/user/show/#{username}/followers?full=1").
+        and_raise error_404
+      user = GitHub::User.followers_of username
+      user.should be_nil
+    end
+
   end
 
   context 'usernames of followers of' do
@@ -149,6 +179,16 @@ describe GitHub::User do
         and_return StringIO.new('{"users":[]}')
       usernames = GitHub::User.usernames_of_followers_of username
       usernames.should be_empty
+    end
+
+    it 'nil given an nonexistent username' do
+      username = 'someonethatnoexists'
+      error_404 = OpenURI::HTTPError.new('404 Not Found', '')
+      GitHub::User.should_receive(:open).
+        with("http://github.com/api/v2/json/user/show/#{username}/followers").
+        and_raise error_404
+      user = GitHub::User.usernames_of_followers_of username
+      user.should be_nil
     end
 
   end
@@ -170,6 +210,16 @@ describe GitHub::User do
         and_return StringIO.new('{"repositories":[]}')
       repositories = GitHub::User.watched_by username
       repositories.should be_empty
+    end
+
+    it 'nil given an nonexistent username' do
+      username = 'someonethatnoexists'
+      error_404 = OpenURI::HTTPError.new('404 Not Found', '')
+      GitHub::User.should_receive(:open).
+        with("http://github.com/api/v2/json/repos/watched/#{username}").
+        and_raise error_404
+      user = GitHub::User.watched_by username
+      user.should be_nil
     end
 
   end

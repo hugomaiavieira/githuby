@@ -40,7 +40,7 @@ describe GitHub::User do
         users_names.should include('Hugo Maia Vieira', 'Hugo Lopes Tavares')
       end
 
-      it 'and returns an empty list for no existen username' do
+      it 'and returns an empty list for nonexistent username' do
         users = GitHub::User.search_by_username 'someonethatnoexists'
         users.should be_empty
       end
@@ -58,6 +58,11 @@ describe GitHub::User do
         users.should be_empty
       end
 
+      it 'nil given an nonexistent username' do
+        user = GitHub::User.followed_by 'someonethatnoexists'
+        user.should be_nil
+      end
+
     end
 
     context 'usernames of followed by' do
@@ -68,6 +73,11 @@ describe GitHub::User do
 
         usernames = GitHub::User.usernames_of_followed_by 'githubytest'
         usernames.should be_empty
+      end
+
+      it 'nil given an nonexistent username' do
+        user = GitHub::User.usernames_of_followed_by 'someonethatnoexists'
+        user.should be_nil
       end
 
     end
@@ -83,6 +93,11 @@ describe GitHub::User do
         users.should be_empty
       end
 
+      it 'nil given an nonexistent username' do
+        user = GitHub::User.followers_of 'someonethatnoexists'
+        user.should be_nil
+      end
+
     end
 
     context 'usernames of followers of' do
@@ -93,6 +108,11 @@ describe GitHub::User do
 
         usernames = GitHub::User.usernames_of_followers_of 'githubytest'
         usernames.should be_empty
+      end
+
+      it 'nil given an nonexistent username' do
+        user = GitHub::User.usernames_of_followers_of 'someonethatnoexists'
+        user.should be_nil
       end
 
     end
@@ -106,6 +126,11 @@ describe GitHub::User do
 
         repositories = GitHub::User.watched_by 'githubytest'
         repositories.should be_empty
+      end
+
+      it 'nil given an nonexistent username' do
+        user = GitHub::User.watched_by 'someonethatnoexists'
+        user.should be_nil
       end
 
     end

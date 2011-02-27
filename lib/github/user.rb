@@ -72,6 +72,8 @@ module GitHub
       url = [PUBLIC_BASE_URL, 'user/show', username, 'following'].join('/')
       users = JSON.parse(open(url+attributes).read)['users']
       users.collect { |user| self.new user }
+      rescue OpenURI::HTTPError
+        return nil
     end
 
     ##
@@ -81,6 +83,8 @@ module GitHub
     def self.usernames_of_followed_by(username)
       url = [PUBLIC_BASE_URL, 'user/show', username, 'following'].join('/')
       JSON.parse(open(url).read)['users']
+      rescue OpenURI::HTTPError
+        return nil
     end
 
     ##
@@ -93,6 +97,8 @@ module GitHub
       url = [PUBLIC_BASE_URL, 'user/show', username, 'followers'].join('/')
       users = JSON.parse(open(url+attributes).read)['users']
       users.collect { |user| self.new user }
+      rescue OpenURI::HTTPError
+        return nil
     end
 
     ##
@@ -102,6 +108,8 @@ module GitHub
     def self.usernames_of_followers_of(username)
       url = [PUBLIC_BASE_URL, 'user/show', username, 'followers'].join('/')
       JSON.parse(open(url).read)['users']
+      rescue OpenURI::HTTPError
+        return nil
     end
 
     ##
@@ -113,6 +121,8 @@ module GitHub
       url = [PUBLIC_BASE_URL, 'repos/watched', username].join('/')
       repositories = JSON.parse(open(url).read)['repositories']
       repositories.collect { |repository| GitHub::Repository.new repository }
+      rescue OpenURI::HTTPError
+        return nil
     end
 
     ##
