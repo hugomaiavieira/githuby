@@ -338,6 +338,34 @@ describe GitHub::User do
 
     end
 
+    context 'watched' do
+
+      it 'returns the repositories that the user watch' do
+        username = 'hugomaiavieira'
+        GitHub::User.should_receive(:open).
+          with("http://github.com/api/v2/json/user/show/#{username}").
+          and_return json_hugomaiavieira
+        user = GitHub::User.get username
+        user.should_receive(:open).
+          with("http://github.com/api/v2/json/repos/watched/#{username}").
+          and_return json_repositories
+        repositories = user.watched
+        repositories_names = repositories.collect(&:name)
+        repositories_names.should include('should-dsl', 'afterFormat', 'rails_admin')
+
+        username = 'githubytest'
+        GitHub::User.should_receive(:open).
+          with("http://github.com/api/v2/json/user/show/#{username}").
+          and_return json_githubtest
+        user = GitHub::User.get username
+        user.should_receive(:open).
+          with("http://github.com/api/v2/json/repos/watched/#{username}").
+          and_return StringIO.new('{"repositories":[]}')
+        user.watched.should be_empty
+      end
+
+    end
+
   end
 
 end

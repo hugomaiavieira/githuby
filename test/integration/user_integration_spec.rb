@@ -191,6 +191,20 @@ describe GitHub::User do
 
     end
 
+    context 'watched' do
+
+      it 'returns the repositories that the user watch' do
+        user = GitHub::User.get 'hugomaiavieira'
+        repositories = user.watched
+        repositories_names = repositories.collect(&:name)
+        repositories_names.should include('should-dsl', 'afterFormat', 'rails_admin')
+
+        user = GitHub::User.get 'githubytest'
+        user.watched.should be_empty
+      end
+
+    end
+
   end
 
 end
