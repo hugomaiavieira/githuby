@@ -1,7 +1,11 @@
 require 'github'
 
-def json_user
-  open(File.dirname(__FILE__) + '/data/user.json')
+def json_hugomaiavieira
+  open(File.dirname(__FILE__) + '/data/hugomaiavieira.json')
+end
+
+def json_githubtest
+  open(File.dirname(__FILE__) + '/data/githubytest.json')
 end
 
 def json_users

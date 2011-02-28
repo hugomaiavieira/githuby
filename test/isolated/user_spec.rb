@@ -10,7 +10,7 @@ describe GitHub::User do
         username = 'hugomaiavieira'
         GitHub::User.should_receive(:open).
           with("http://github.com/api/v2/json/user/show/#{username}").
-          and_return json_user
+          and_return json_hugomaiavieira
         user = GitHub::User.get username
         user.name.should == 'Hugo Maia Vieira'
       end
@@ -33,7 +33,7 @@ describe GitHub::User do
         email = 'hugomaiavieira@gmail.com'
         GitHub::User.should_receive(:open).
           with("http://github.com/api/v2/json/user/email/#{email}").
-          and_return json_user
+          and_return json_hugomaiavieira
         user = GitHub::User.search_by_email email
         user.name.should == 'Hugo Maia Vieira'
       end
@@ -230,19 +230,15 @@ describe GitHub::User do
 
   context 'instance' do
 
-    def new_user username
-        GitHub::User.should_receive(:open).
-          with("http://github.com/api/v2/json/user/show/#{username}").
-          and_return json_user
-        GitHub::User.get username
-    end
 
     context 'following' do
 
-      it 'returns the users followed by the given user' do
+      it 'returns the users that the user is following' do
         username = 'hugomaiavieira'
-        user = new_user(username)
-
+        GitHub::User.should_receive(:open).
+          with("http://github.com/api/v2/json/user/show/#{username}").
+          and_return json_hugomaiavieira
+        user = GitHub::User.get username
         user.should_receive(:open).
           with("http://github.com/api/v2/json/user/show/#{username}/following?full=1").
           and_return json_users
@@ -251,12 +247,40 @@ describe GitHub::User do
         users_names.should include('Hugo Lopes Tavares', 'Hugo Bonacci', 'Hugo Josefson')
 
         username = 'githubytest'
-        user = new_user(username)
         GitHub::User.should_receive(:open).
+          with("http://github.com/api/v2/json/user/show/#{username}").
+          and_return json_githubtest
+        user = GitHub::User.get username
+        user.should_receive(:open).
           with("http://github.com/api/v2/json/user/show/#{username}/following?full=1").
           and_return StringIO.new('{"users":[]}')
-        users = GitHub::User.followed_by username
-        users.should be_empty
+        user.following.should be_empty
+      end
+
+    end
+
+    context 'following usernames' do
+
+      it 'returns the usernames of users that the user is following' do
+        username = 'hugomaiavieira'
+        GitHub::User.should_receive(:open).
+          with("http://github.com/api/v2/json/user/show/#{username}").
+          and_return json_hugomaiavieira
+        user = GitHub::User.get username
+        user.should_receive(:open).
+          with("http://github.com/api/v2/json/user/show/#{username}/following").
+          and_return json_usernames
+        user.following_usernames.should include('hugobr', 'eduardohertz', 'rodrigomanhaes')
+
+        username = 'githubytest'
+        GitHub::User.should_receive(:open).
+          with("http://github.com/api/v2/json/user/show/#{username}").
+          and_return json_githubtest
+        user = GitHub::User.get username
+        user.should_receive(:open).
+          with("http://github.com/api/v2/json/user/show/#{username}/following").
+          and_return StringIO.new('{"users":[]}')
+        user.following_usernames.should be_empty
       end
 
     end

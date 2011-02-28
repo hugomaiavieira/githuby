@@ -141,17 +141,26 @@ describe GitHub::User do
 
     context 'following' do
 
-      it 'returns the users followed by the given user' do
-        username = 'hugomaiavieira'
-        user = GitHub::User.get(username)
+      it 'returns the users that the user is following' do
+        user = GitHub::User.get 'hugomaiavieira'
         users = user.following
         users_names = users.collect(&:name)
         users_names.should include('Hugo Lopes Tavares', 'Eduardo Hertz', 'Tarsis Azevedo')
 
-        username = 'githubytest'
-        user = GitHub::User.get(username)
-        users = GitHub::User.followed_by username
-        users.should be_empty
+        user = GitHub::User.get 'githubytest'
+        user.following.should be_empty
+      end
+
+    end
+
+    context 'following usernames' do
+
+      it 'returns the usernames of users that the user is following' do
+        user = GitHub::User.get 'hugomaiavieira'
+        user.following_usernames.should include('hugobr', 'eduardohertz', 'rodrigomanhaes')
+
+        user = GitHub::User.get 'githubytest'
+        user.following_usernames.should be_empty
       end
 
     end
