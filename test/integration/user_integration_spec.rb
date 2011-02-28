@@ -179,6 +179,18 @@ describe GitHub::User do
 
     end
 
+    context 'followers usernames' do
+
+      it 'returns the usernames of users that follows the user' do
+        user = GitHub::User.get 'hugomaiavieira'
+        user.followers_usernames.should include('hugobr', 'eduardohertz', 'rodrigomanhaes')
+
+        user = GitHub::User.get 'githubytest'
+        user.followers_usernames.should be_empty
+      end
+
+    end
+
   end
 
 end

@@ -312,6 +312,32 @@ describe GitHub::User do
 
     end
 
+    context 'followers usernames' do
+
+      it 'returns the usernames of users that follows the user' do
+        username = 'hugomaiavieira'
+        GitHub::User.should_receive(:open).
+          with("http://github.com/api/v2/json/user/show/#{username}").
+          and_return json_hugomaiavieira
+        user = GitHub::User.get username
+        user.should_receive(:open).
+          with("http://github.com/api/v2/json/user/show/#{username}/followers").
+          and_return json_usernames
+        user.followers_usernames.should include('hugobr', 'eduardohertz', 'rodrigomanhaes')
+
+        username = 'githubytest'
+        GitHub::User.should_receive(:open).
+          with("http://github.com/api/v2/json/user/show/#{username}").
+          and_return json_githubtest
+        user = GitHub::User.get username
+        user.should_receive(:open).
+          with("http://github.com/api/v2/json/user/show/#{username}/followers").
+          and_return StringIO.new('{"users":[]}')
+        user.followers_usernames.should be_empty
+      end
+
+    end
+
   end
 
 end
