@@ -14,13 +14,7 @@ module GitHub
   #
   # For public access, via http
   #
-  PUBLIC_BASE_URL = 'http://github.com/api/v2/json'
-
-  ##
-  #
-  # For authenticated access, via https
-  #
-  SECURE_BASE_URL = 'https://github.com/api/v2/json'
+  PUBLIC_BASE_URL = 'https://api.github.com'
 
 end
 
